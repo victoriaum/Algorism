@@ -4,7 +4,7 @@ import java.util.*;
 
 // Greedy
 public class BaseStationInstallation {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         /*
             1번째 제출풀이(mySolution_1):
                 정확성: 75.0/75.0
@@ -19,9 +19,37 @@ public class BaseStationInstallation {
                 *** Loop 개선하고, 적절한 데이터 구조를 사용하기, 불필요한 object 제거
         */
 
-        System.out.println( firstSolution(11, new int[]{4,11}, 1) );
-        System.out.println( teacherSolution_1(11, new int[]{4,11}, 1) );
-        System.out.println( teacherSolution_2(11, new int[]{4,11}, 1) );
+        // case1
+        int n = 11;
+        int[] stations = new int[]{4, 11};
+        int w = 1;
+
+        // case2
+//        int n = 16;
+//        int[] stations = new int[]{9};
+//        int w = 2;
+
+        System.out.println(mySolution_1(n,stations,w));
+        System.out.println(teacherSolution_1(n,stations,w));
+        System.out.println(teacherSolution_2(n,stations,w));
+    }
+
+    // 다시 생각해보기..
+    private static int mySolution_2(int n, int[] stations, int w) {
+        int answer = 0;
+        int index = 1;
+        int i = 0;
+        while(true){
+            if(i < stations.length){
+                answer += (stations[i] - w - index) / (w * 2 + 1) + 1;
+                index = stations[i] + w + 1;
+                i++;
+            }else{
+                answer += (n - index + 1) / (w * 2 + 1) + 1;
+                break;
+            }
+        }
+        return answer;
     }
 
     private static int teacherSolution_2(int n, int[] stations, int w) {
@@ -29,6 +57,7 @@ public class BaseStationInstallation {
         int si = 0; // 인덱스 사용
         int position = 1;
         while(position <= n){
+            // *** for문 대체 방법으로 알아두기
             if(si < stations.length && stations[si] - w <= position){   // 인덱스가 stations 수보다 작고, stations 인덱스 값에서 범위 w를 뺀 값이 현재 position 보다 작거나 같으면
                 position = stations[si] + w + 1;
                 si += 1;
@@ -60,7 +89,7 @@ public class BaseStationInstallation {
     }
 
 
-    private static int firstSolution(int n, int[] stations, int w) {
+    private static int mySolution_1(int n, int[] stations, int w) {
         int answer = 0;
 
         List<Integer> list = new ArrayList(Arrays.asList(new int[0]));
