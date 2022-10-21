@@ -19,6 +19,8 @@ public class BaseStationInstallation {
                 *** Loop 개선하고, 적절한 데이터 구조를 사용하기, 불필요한 object 제거
         */
 
+        // n은 아파트 수, stataions는 현재 설치된 기지국 위치 배열, w는 기지국 전파범위
+
         // case1
         int n = 11;
         int[] stations = new int[]{4, 11};
