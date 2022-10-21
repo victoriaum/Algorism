@@ -30,6 +30,15 @@ public class DollIncentives {
 
         System.out.println( mySolution_1(goal, durations) );
         System.out.println( mySolution_2(goal, durations) );
+        System.out.println( othersSolution_1(goal, durations) );
+    }
+
+    private static long othersSolution_1(int goal, int[] durations) {
+        long answer = 0;
+
+        
+
+        return answer;
     }
 
     private static long mySolution_2(int goal, int[] durations) {
