@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 public class LargestNumber {
     public static void main(String[] args){
         /*
-            1번째 제출풀이(firstSolution):
+            1번째 제출풀이(mySolution_1):
                 정확성: 93.9/100.0
                 에러의 원인? 문제 전제조건을 잘 살피자. if(answer.charAt(0)=='0') return "0";처럼 0,0,0이 주어져서 만들어진 수는 그냥 0으로 return하면 된다.
 

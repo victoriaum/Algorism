@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 public class Budget {
     public static void main(String[] args){
         /*
-            1번째 제출풀이(firstSolution):
+            1번째 제출풀이(mySolution_1):
                 정확성: 100.0 / 100.0
         */
 
