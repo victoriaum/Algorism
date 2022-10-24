@@ -37,6 +37,7 @@ public class BikeFactory {
         int maxMonth = 0;
         for (int[] o : order) maxMonth = Math.max(maxMonth, o[0]);
 
+        // 주문 정렬
         int[] monthlyOrder = new int[maxMonth];
         int need = 0;
         int made = 0;
