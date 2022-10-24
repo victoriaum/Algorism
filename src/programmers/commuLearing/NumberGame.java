@@ -24,7 +24,7 @@ public class NumberGame {
 
         // case1
         int[] A = {5,1,3,7};
-        int[] B = {8,2,6,2};
+        int[] B = {2,2,6,8};
 
         // case2
 //        int[] A = {2,2,2,2};
@@ -35,6 +35,7 @@ public class NumberGame {
         System.out.println( teacherSolution_2(A, B) );
     }
 
+    // 이상하게 intelliJ에서 값이 다르게 나오네..
     private static int teacherSolution_2(int[] A, int[] B) {
         Arrays.sort(A);
         Arrays.sort(B);
