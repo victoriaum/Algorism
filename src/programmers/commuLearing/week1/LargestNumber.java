@@ -1,4 +1,4 @@
-package programmers.commuLearing;
+package programmers.commuLearing.week1;
 
 import java.util.*;
 import java.util.stream.Collectors;

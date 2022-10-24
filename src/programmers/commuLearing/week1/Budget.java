@@ -1,4 +1,4 @@
-package programmers.commuLearing;
+package programmers.commuLearing.week1;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package programmers.commuLearing;
+package programmers.commuLearing.week1;
 
 public class MagicElevetor {
     public static void main(String[] args){
