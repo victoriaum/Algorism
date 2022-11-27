@@ -96,6 +96,11 @@ public class PhoneNumberList {
             }
         }
 
+        Arrays.sort(phone_book);
+        for(String str : phone_book){
+
+        }
+
         return answer;
     }
 }

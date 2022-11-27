@@ -1,8 +1,7 @@
 package programmers.kit.Hash;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 // 해시 - 베스트앨범
 public class BestAlbum {
@@ -20,7 +19,14 @@ public class BestAlbum {
     private static int[] solution(String[] genres, int[] plays) {
         int[] answer = {};
 
+        Set<String> set = Arrays.stream(genres).collect(Collectors.toSet());
+        Map<String, Integer> total = new HashMap<>();
 
+
+        for(int i=0; i<genres.length; i++){
+            total.put(genres[i], total.getOrDefault(plays[i],0)+plays[i]);
+            if(i==set.size()){ break; }
+        }
 
         return answer;
     }
