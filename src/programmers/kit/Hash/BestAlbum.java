@@ -22,11 +22,22 @@ public class BestAlbum {
         Set<String> set = Arrays.stream(genres).collect(Collectors.toSet());
         Map<String, Integer> total = new HashMap<>();
 
-
         for(int i=0; i<genres.length; i++){
             total.put(genres[i], total.getOrDefault(plays[i],0)+plays[i]);
             if(i==set.size()){ break; }
         }
+
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(total.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        Map<String, Integer> sortedTotal = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : list) {
+            sortedTotal.put(entry.getKey(), entry.getValue());
+        }
+
+
+
+
 
         return answer;
     }
