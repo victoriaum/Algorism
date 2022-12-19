@@ -13,14 +13,34 @@ public class RightParentheses {
 
         //String s = "()()";
         //String s = "(())()";
+        //String s = "()())(()";
         String s = "()())(()";
 
         System.out.println(solution(s));  // 통과
+        System.out.println(trial3(s));  // 정확성 실패, 효율성 통과
         System.out.println(trial2(s));  // 정확성 실패, 효율성 통과
         System.out.println(trial(s));  // "(())()" 인 경우, 실패
     }
 
     private static boolean solution(String s) {
+        char[] arr = s.toCharArray();
+        int cnt = 0;
+
+        if(arr[0]!='(' || arr[arr.length-1]!=')'){
+            return false;
+        }else{
+            for(int i=0; i<arr.length; i++){
+                if(cnt==0 && '('!=arr[i]) return false;
+                if('('==arr[i]) cnt++;
+                if(')'==arr[i]) cnt--;
+            }
+            if(cnt!=0) return false;
+        }
+
+        return true;
+    }
+
+    private static boolean trial3(String s) {
         char[] arr = s.toCharArray();
         int cnt = 0;
 
