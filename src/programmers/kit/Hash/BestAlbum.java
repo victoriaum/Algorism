@@ -13,31 +13,88 @@ public class BestAlbum {
         String[] genres = {"classic", "pop", "classic", "classic", "pop"};
         int[] plays = {500, 600, 150, 800, 2500};
 
-        System.out.println(solution(genres, plays));
+        System.out.println(solution(genres, plays));   // 정확성 실패(런타임 에러)
+        System.out.println(trial(genres, plays));   // 정확성 실패(런타임 에러)
     }
 
-    private static int[] solution(String[] genres, int[] plays) {
-        int[] answer = {};
-
-        Set<String> set = Arrays.stream(genres).collect(Collectors.toSet());
+    private static List<Integer> solution(String[] genres, int[] plays) {
+        List<Integer> answer = new ArrayList<>();
         Map<String, Integer> total = new HashMap<>();
 
+        Set<String> set = Arrays.stream(genres).collect(Collectors.toSet());
         for(int i=0; i<genres.length; i++){
             total.put(genres[i], total.getOrDefault(plays[i],0)+plays[i]);
             if(i==set.size()){ break; }
         }
 
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(total.entrySet());
-        list.sort(Map.Entry.comparingByValue());
-
-        Map<String, Integer> sortedTotal = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> entry : list) {
-            sortedTotal.put(entry.getKey(), entry.getValue());
+        List<String> total_genres = new ArrayList<>();
+        for(String genre : set){
+            if(total_genres.size()!=0 && total.get(total_genres.get(0)) < total.get(genre)){
+                total_genres.add(0, genre);
+            }else{
+                total_genres.add(genre);
+            }
         }
 
+        List<Integer> temp;
+        int cnt;
+        Map<Integer, Integer> tempMap = new HashMap<>();
 
+        for(int i=0; i<total_genres.size(); i++){
+            temp = new ArrayList<>();
+            cnt = 0;
+            for(int j=0; j<plays.length; j++){
+                if(total_genres.get(i).equals(genres[j])) {
+                    temp.add(plays[j]);
+                    cnt++;
+                    if (tempMap.get(plays[j]) == null) tempMap.put(plays[j], j);
+                }
+            }
+            Collections.sort(temp, Collections.reverseOrder());
+            answer.add(tempMap.get(temp.get(0)));
+            answer.add(tempMap.get(temp.get(1)));
+        }
 
+        return answer;
+    }
 
+    private static List<Integer> trial(String[] genres, int[] plays) {
+        List<Integer> answer = new ArrayList<>();
+        Map<String, Integer> total = new HashMap<>();
+
+        Set<String> set = Arrays.stream(genres).collect(Collectors.toSet());
+        for(int i=0; i<genres.length; i++){
+            total.put(genres[i], total.getOrDefault(plays[i],0)+plays[i]);
+            if(i==set.size()){ break; }
+        }
+
+        List<String> total_genres = new ArrayList<>();
+        for(String genre : set){
+            if(total_genres.size()!=0 && total.get(total_genres.get(0)) < total.get(genre)){
+                total_genres.add(0, genre);
+            }else{
+                total_genres.add(genre);
+            }
+        }
+
+        List<Integer> temp;
+        int cnt;
+        Map<Integer, Integer> tempMap = new HashMap<>();
+
+        for(int i=0; i<total_genres.size(); i++){
+            temp = new ArrayList<>();
+            cnt = 0;
+            for(int j=0; j<plays.length; j++){
+                if(total_genres.get(i).equals(genres[j])) {
+                    temp.add(plays[j]);
+                    cnt++;
+                    if (tempMap.get(plays[j]) == null) tempMap.put(plays[j], j);
+                }
+            }
+            Collections.sort(temp, Collections.reverseOrder());
+            answer.add(tempMap.get(temp.get(0)));
+            answer.add(tempMap.get(temp.get(1)));
+        }
 
         return answer;
     }
