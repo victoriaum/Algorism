@@ -1,9 +1,6 @@
 package programmers.kit.StackQueue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 // 스택/큐 - 프린터
 public class Printer {
@@ -18,40 +15,31 @@ public class Printer {
         int[] priorities = {1, 1, 9, 1, 1, 1};
         int location = 0;
 
-        System.out.println(solution(priorities, location));  //
-        System.out.println(trial(priorities, location));  // 런타임에러 발생
+        System.out.println(solution(priorities, location));  // 우선순위 큐 - PriorityQueue
+        System.out.println(trial(priorities, location));     // 런타임에러 발생
     }
 
     private static int solution(int[] priorities, int location) {
-        List<Integer> origin = new ArrayList<>();
-        List<Integer> list = new ArrayList<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        int answer = 0;
 
-        int value = priorities[location];
-        for(int i=0; i<priorities.length; i++){
-            origin.add(priorities[i]);
-            list.add(i==location? 0 : priorities[i]);
+        for (int i = 0; i < priorities.length; i++) {
+            pq.add(priorities[i]);
         }
 
-        int cnt = 0;
-        while(true){
-            System.out.println(list);
-            int removed = list.get(0);
-            int compare = list.get(0);
-            if(compare==0) compare=value;
-
-            origin.remove(0);
-            list.remove(0);
-            if(compare >= Collections.max(origin)){
-                cnt++;
-                if(removed==0) break;
-            }else{
-                if(removed==0) list.add(0);
-                else list.add(compare);
-                origin.add(compare);
+        while (!pq.isEmpty()) {
+            for (int i = 0; i < priorities.length; i++) {
+                if (priorities[i] == pq.peek()) {
+                    if (i == location) {
+                        answer++;
+                        return answer;
+                    }
+                    pq.poll();
+                    answer++;
+                }
             }
         }
-
-        return cnt;
+        return -1;
     }
 
     private static int trial(int[] priorities, int location) {
@@ -66,7 +54,7 @@ public class Printer {
 
         int cnt = 0;
         while(true){
-            System.out.println(list);
+            // System.out.println(list);
             int removed = list.get(0);
             int compare = list.get(0);
             if(compare==0) compare=value;
