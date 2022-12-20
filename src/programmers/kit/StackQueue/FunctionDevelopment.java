@@ -1,82 +1,39 @@
 package programmers.kit.StackQueue;
 
-// 스택/큐 - 올바른 괄호
+import java.util.*;
+
+// 스택/큐 - 기능개발
 public class FunctionDevelopment {
     public static void main(String[] args) {
-        // '(' 또는 ')' 로만 이루어진 문자열 s가 주어졌을 때, 문자열 s가 올바른 괄호이면 true를 return 하고,
-        // 올바르지 않은 괄호이면 false를 return 하는 solution 함수를 완성해 주세요.
+        // 진행도 %와 1일당 개발되는 진행도 %가 주어진다고 할 때, 배포시 배포되는 기능의 수를 출력하는 문제
+        // 진행도는 총 100%가 되었을 때 배포되며, 뒤에 진행도가 100%가 되어도 앞의 진행도가 100%이 되어야 같이 배포될 수 있다.
+        // *** 뒷 작업이 작업도가 많이 필요하다면 앞에 작업만 배포한다.
 
-        //String s = "()()";
-        //String s = "(())()";
-        //String s = "()())(()";
-        String s = "()())(()";
+        int[] progresses = {93, 30, 55};
+        int[] speeds = {1, 30, 5};
 
-        System.out.println(solution(s));  // 통과
-        System.out.println(trial3(s));  // 정확성 실패, 효율성 통과
-        System.out.println(trial2(s));  // 정확성 실패, 효율성 통과
-        System.out.println(trial(s));  // "(())()" 인 경우, 실패
+        //int[] progresses = {95, 90, 99, 99, 80, 99};
+        //int[] speeds = {1, 1, 1, 1, 1, 1};
+
+        System.out.println(solution(progresses, speeds));  //
     }
 
-    private static boolean solution(String s) {
-        char[] arr = s.toCharArray();
-        int cnt = 0;
+    private static List<Integer> solution(int[] progresses, int[] speeds) {
+        List<Integer> answer = new ArrayList<>();
+        int[] remainDays = new int[progresses.length];
 
-        if(arr[0]!='(' || arr[arr.length-1]!=')'){
-            return false;
-        }else{
-            for(int i=0; i<arr.length; i++){
-                if(cnt==0 && '('!=arr[i]) return false;
-                if('('==arr[i]) cnt++;
-                if(')'==arr[i]) cnt--;
-            }
-            if(cnt!=0) return false;
+        int day;
+        for(int i=0; i<progresses.length; i++){
+            day = (100-progresses[i])/speeds[i];
+            if((100-progresses[i])%speeds[i]!=0) day++;
+            remainDays[i] = day;
         }
 
-        return true;
-    }
-
-    private static boolean trial3(String s) {
-        char[] arr = s.toCharArray();
-        int cnt = 0;
-
-        if(arr[0]!='(' || arr[arr.length-1]!=')'){
-            return false;
-        }else{
-            for(int i=0; i<arr.length; i++){
-                if('('==arr[i]) cnt++;
-                if(')'==arr[i]) cnt--;
-            }
-            if(cnt!=0) return false;
+        int cnt =  0, index = 0;
+        while(true){
+            //
         }
 
-        return true;
-    }
-
-    private static boolean trial2(String s) {
-        boolean answer = true;
-        char[] arr = s.toCharArray();
-        int cnt = 0;
-
-        if(arr[0]!='(' || arr[arr.length-1]!=')'){
-            answer=false;
-        }else{
-            for(int i=0; i<arr.length; i++){
-                if('('==arr[i]) cnt++;
-                if(')'==arr[i]) cnt--;
-            }
-            if(cnt!=0) answer=false;
-        }
-
-        return answer;
-    }
-
-    private static boolean trial(String s) {
-        boolean answer = true;
-        char[] arr = s.toCharArray();
-        for(int i=0; i<arr.length; i++){
-            if(i%2==1 && '('==arr[i]){ answer=false; break; }
-            if(i%2==0 && ')'==arr[i]){ answer=false; break; }
-        }
         return answer;
     }
 }
