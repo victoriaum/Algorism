@@ -30,9 +30,6 @@ public class FunctionDevelopment {
         }
 
         int cnt =  0, index = 0;
-        while(true){
-            //
-        }
 
         return answer;
     }
