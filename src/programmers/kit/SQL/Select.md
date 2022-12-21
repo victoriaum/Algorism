@@ -1,19 +1,19 @@
-### Select
+## Select
 
-##### 조건에 맞는 도서 리스트 출력하기
+### 조건에 맞는 도서 리스트 출력하기
 + DATE FORMAT 유의할 것
 ```
 SELECT BOOK_ID, DATE_FORMAT(PUBLISHED_DATE,'%Y-%m-%d') AS PUBLISHED_DATE FROM BOOK WHERE CATEGORY='인문' AND PUBLISHED_DATE LIKE '2021%' ORDER BY PUBLISHED_DATE ASC;
 ```
 
-##### 재구매가 일어난 상품과 회원 리스트 구하기
+### 재구매가 일어난 상품과 회원 리스트 구하기
 + 재구매인 것만 나타내야 한다.
 + GROUP BY와 HAVING을 사용하는 문제
 ```
 SELECT USER_ID, PRODUCT_ID FROM ONLINE_SALE GROUP BY USER_ID, PRODUCT_ID HAVING COUNT(ONLINE_SALE_ID)>1 ORDER BY USER_ID ASC, PRODUCT_ID DESC;
 ```
 
-##### 오프라인/온라인 판매 데이터 통합하기
+### 오프라인/온라인 판매 데이터 통합하기
 ```
 SELECT DATE_FORMAT(SALES_DATE,'%Y-%m-%d'), PRODUCT_ID, USER_ID, SALES_AMOUNT FROM (
 SELECT SALES_DATE, PRODUCT_ID, USER_ID, SALES_AMOUNT FROM ONLINE_SALE
@@ -24,38 +24,150 @@ WHERE SALES_DATE LIKE '2022-03%'
 ORDER BY SALES_DATE ASC, PRODUCT_ID ASC, USER_ID ASC
 ```
 
-##### 조건에 맞는 회원수 구하기
+### 조건에 맞는 회원수 구하기
 ```
 SELECT COUNT(*) AS USERS FROM USER_INFO WHERE AGE BETWEEN 20 AND 29 AND JOINED LIKE '2021%'
 ```
 
-##### 상위 n개 레코드
+### 상위 n개 레코드
 + MYSQL에서는 ```LIMIT```를 이용하고 MSSQL에서는 SELECT 당시에 ```TOP```으로 위에 자료를 가지고 온다.
 ```
 SELECT NAME FROM ANIMAL_INS ORDER BY DATETIME LIMIT 0,1
 ```
 
-##### 여러 기준으로 정렬하기
+### 여러 기준으로 정렬하기
 ```
 SELECT ANIMAL_ID, NAME, DATETIME FROM ANIMAL_INS ORDER BY NAME ASC, DATETIME DESC;
 ```
 
-##### 여러 기준으로 정렬하기
+### 여러 기준으로 정렬하기
 ```
 SELECT ANIMAL_ID, NAME, DATETIME FROM ANIMAL_INS ORDER BY NAME ASC, DATETIME DESC;
 ```
 
-##### 어린 동물 찾기
+### 어린 동물 찾기
 ```
 SELECT ANIMAL_ID, NAME FROM ANIMAL_INS WHERE INTAKE_CONDITION<>'Aged'
 ```
 
-##### 아픈 동물 찾기
+### 아픈 동물 찾기
 ```
 SELECT ANIMAL_ID, NAME FROM ANIMAL_INS WHERE INTAKE_CONDITION='Sick'
 ```
 
-##### 아픈 동물 찾기
+### 아픈 동물 찾기
 ```
 SELECT ANIMAL_ID, NAME FROM ANIMAL_INS WHERE INTAKE_CONDITION='Sick'
+```
+
+
+## SUM, MAX, MIN
+
+### 중복 제거하기
+```
+SELECT COUNT(DISTINCT(NAME)) FROM ANIMAL_INS WHERE NAME IS NOT NULL;
+```
+
+### 동물의 수 구하기
+```
+SELECT COUNT(*) FROM ANIMAL_INS;
+```
+
+### 최솟값 구하기
+```
+SELECT DATETIME AS 시간 FROM ANIMAL_INS ORDER BY DATETIME LIMIT 0,1;
+```
+
+
+
+## GROUP BY
+
+### 성분으로 구분한 아이스크림 총 주문량
++ GROUP BY 사용시 GROUP BY의 대상이 되는 INGREDIENT_TYPE 외의 항목은 모두 합이 자동으로 계산되는 것이 아님에 유의!
+```
+SELECT INGREDIENT_TYPE, SUM(TOTAL_ORDER)
+FROM FIRST_HALF F RIGHT JOIN ICECREAM_INFO I 
+ON F.FLAVOR = I.FLAVOR 
+GROUP BY INGREDIENT_TYPE 
+ORDER BY TOTAL_ORDER
+```
+
+### 즐겨찾기가 가장 많은 식당 정보 출력하기
++ ORDER BY 기본은 오름차순(ASC)입니다. (ASC 또는 DESC를 입력하지 않은 경우 ASC로 기본적으로 정렬합니다.)
+```
+SELECT FOOD_TYPE, REST_ID, REST_NAME, FAVORITES 
+FROM (
+    SELECT *, RANK() OVER (PARTITION BY FOOD_TYPE ORDER BY FAVORITES DESC) AS RNO 
+    FROM REST_INFO
+) AS T
+WHERE RNO=1
+ORDER BY FOOD_TYPE DESC;
+```
+
+### 식품분류별 가장 비싼 식품의 정보 조회하기
+```
+SELECT CATEGORY, PRICE AS MAX_PRICE, PRODUCT_NAME FROM (
+    SELECT *, RANK() OVER (PARTITION BY CATEGORY ORDER BY PRICE DESC) AS RNO FROM FOOD_PRODUCT 
+) AS T
+WHERE CATEGORY IN ('과자','국','김치','식용유') AND RNO=1
+ORDER BY PRICE DESC
+```
+
+### 카테고리 별 도서 판매량 집계하기
++ 문제 조건 잘 읽기, 기한이 정해져 있는 경우였다는 점!
+```
+SELECT CATEGORY, SUM(SALES) AS TOTAL_SALES
+FROM BOOK B LEFT JOIN BOOK_SALES S 
+ON B.BOOK_ID = S.BOOK_ID
+WHERE SALES_DATE LIKE '2022-01%'
+GROUP BY CATEGORY
+ORDER BY CATEGORY ASC;
+```
+
+### [저자 별 카테고리 별 매출액 집계하기](https://school.programmers.co.kr/learn/courses/30/lessons/144856)
++ 문제 조건 잘 읽기, 기한이 정해져 있는 경우였다는 점!
+```
+SELECT AUTHOR_ID, AUTHOR_NAME, CATEGORY, SUM(TOTAL_SALES) AS TOTAL_SALES
+FROM(
+SELECT B.AUTHOR_ID, AUTHOR_NAME, CATEGORY, SALES*PRICE AS TOTAL_SALES 
+FROM BOOK B JOIN AUTHOR A
+ON B.AUTHOR_ID = A.AUTHOR_ID
+JOIN BOOK_SALES S 
+ON B.BOOK_ID = S.BOOK_ID 
+WHERE SALES_DATE LIKE '2022-01%'
+) AS T
+GROUP BY AUTHOR_ID, CATEGORY
+ORDER BY AUTHOR_ID ASC, CATEGORY DESC
+```
+
+### [년, 월, 성별 별 상품 구매 회원 수 구하기](https://school.programmers.co.kr/learn/courses/30/lessons/131532)
++ 회원 수를 구하는 부분에서 DISTINCT를 해서 겹치는 회원을 제거해야 한다는 점에 주의!
+```
+SELECT YEAR, MONTH, GENDER, COUNT(DISTINCT(USER_ID)) AS USERS FROM ( 
+SELECT SUBSTRING(SALES_DATE, 1, 4) AS YEAR, SUBSTRING(SALES_DATE, 6, 2) AS MONTH, GENDER, U.USER_ID
+FROM USER_INFO U JOIN ONLINE_SALE O 
+ON U.USER_ID=O.USER_ID 
+WHERE GENDER IS NOT NULL
+) AS T    
+GROUP BY YEAR, MONTH, GENDER
+ORDER BY YEAR, MONTH, GENDER
+```
+
+### [입양 시각 구하기(2)](https://school.programmers.co.kr/learn/courses/30/lessons/59413#qna)
++ 입양이 되지 않은 시간에는 0값을 출력해야 한다는 점에 유의해야 하는 문제다.
+```
+WITH RECURSIVE T AS(
+    SELECT 0 AS HOUR
+    UNION ALL
+    SELECT HOUR+1 FROM T
+    WHERE HOUR<23
+)
+
+SELECT HOUR, COUNT(ANIMAL_ID)
+FROM(
+SELECT T.HOUR, ANIMAL_ID FROM ANIMAL_OUTS A RIGHT OUTER JOIN T T
+ON DATE_FORMAT(A.DATETIME,'%k')=T.HOUR
+) AS V
+GROUP BY HOUR
+ORDER BY HOUR
 ```
