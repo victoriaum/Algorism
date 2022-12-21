@@ -1,7 +1,7 @@
 ## SQL Openbook
 
 ### MYSQL 계층형 쿼리
-```java
+```sql
 WITH RECURSIVE T AS(
     SELECT 0 AS HOUR
     UNION ALL
