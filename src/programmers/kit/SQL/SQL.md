@@ -171,3 +171,20 @@ ON DATE_FORMAT(A.DATETIME,'%k')=T.HOUR
 GROUP BY HOUR
 ORDER BY HOUR
 ```
+
+
+## ISNULL
+
+### NULL 처리하기
++ MYSQL에는 ```ISNULL``` 대신 ```IFNULL```을 사용한다. MSSQL은 ```ISNULL```
+```
+SELECT ANIMAL_TYPE, IFNULL(NAME, 'No name') AS NAME, SEX_UPON_INTAKE FROM ANIMAL_INS
+```
+
+
+## JOIN
+
+### 조건에 맞는 도서와 저자 리스트 출력하기
+```
+
+```
