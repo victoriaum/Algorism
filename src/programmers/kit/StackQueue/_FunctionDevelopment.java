@@ -19,20 +19,19 @@ public class _FunctionDevelopment {
         //System.out.println(trial(progresses, speeds));
     }
 
-    private static List<Integer> solution(int[] progresses, int[] speeds) {
-        List<Integer> answer = new ArrayList<>();
-        int[] remainDays = new int[progresses.length];
 
-        int day;
-        for(int i=0; i<progresses.length; i++){
-            day = (100-progresses[i])/speeds[i];
-            if((100-progresses[i])%speeds[i]!=0) day++;
-            remainDays[i] = day;
+    // dayOfend 배열을 잘 살펴보자
+    // 다음 process의 소요일수가 앞의 process 일수보다 작은 경우 같은 곳에  ++; 처리된다.
+    private static int[] solution(int[] progresses, int[] speeds) {
+        int[] dayOfend = new int[100];
+        int day = -1;
+        for(int i=0; i<progresses.length; i++) {
+            while(progresses[i] + (day*speeds[i]) < 100) {
+                day++;
+            }
+            dayOfend[day]++;
         }
-
-        int cnt =  0, index = 0;
-
-        return answer;
+        return Arrays.stream(dayOfend).filter(i -> i!=0).toArray();
     }
 
     private static List<Integer> trial(int[] progresses, int[] speeds) {
