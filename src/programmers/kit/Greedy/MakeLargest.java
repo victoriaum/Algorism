@@ -9,35 +9,31 @@ public class MakeLargest {
 
         // k의 수를 지워야 하면, 먼저 뒤 2자리를 제거후, 앞 부분에서 가장 큰 수를 answer에 더해준다.
         // 그리고 k-1 수를 남기는 것으로 위와 동일하게 계속 계산한다.
-        // https://born2bedeveloper.tistory.com/27
 
         System.out.println(solution("1924", 2));     // "94"
         System.out.println(solution("1231234", 3));     // "3234"
         System.out.println(solution("4177252841", 4));     // "775841"
     }
 
+    // https://born2bedeveloper.tistory.com/27
+    // 풀이참조
     private static String solution(String number, int k) {
-        String answer = "";
-        int index = 0, cnt = 0;
-        List<String> subList = null;
-        List<String> list = new ArrayList<>();
-        for(char ch: number.toCharArray()){
-            list.add(String.valueOf(ch));
-        }
+        StringBuilder answer = new StringBuilder("");
+        int len = number.length() - k;
+        int start = 0;
 
-        while(k>0){
-            subList = new ArrayList<>(list.subList(0, list.size()-k));
-            index = list.indexOf(Collections.max(subList));
-            answer += Collections.max(subList);
-            cnt += index;
-            list = new ArrayList<>(list.subList(index+1, list.size()));
-            k--;
+        while(start < number.length() && answer.length() != len) {
+            int leftNum = k + answer.length() + 1;
+            int max = 0;
+            for (int j = start; j < leftNum; j++) {
+                if (max < number.charAt(j) - '0') {
+                    max = number.charAt(j) - '0';
+                    start = j + 1;
+                }
+            }
+            answer.append(Integer.toString(max));
         }
-
-        for(String str: list){
-            answer += str;
-        }
-        return answer;
+        return answer.toString();
     }
 
     private static String trial(String number, int k) {
