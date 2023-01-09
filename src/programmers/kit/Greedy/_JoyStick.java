@@ -10,8 +10,29 @@ public class _JoyStick {
         // 만들고자 하는 이름 name이 매개변수로 주어질 때, 이름에 대해 조이스틱 조작 횟수의 최솟값을 return 하도록 solution 함수를 만드세요.
         // 아스키코드표 65 ~ 90
 
-        System.out.println(trial("JEROEN"));     // 56 -> 실패
-        System.out.println(trial("JAN"));        // 23
+        System.out.println(solution("JEROEN"));     // 56
+        System.out.println(solution("JAN"));        // 23
+    }
+
+    // https://velog.io/@jeeseob5761/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EC%A1%B0%EC%9D%B4%EC%8A%A4%ED%8B%B1
+    // 풀이 참조
+    private static int solution(String name) {
+        int answer = 0;
+        int length = name.length();
+        int index;
+        int move = length - 1;
+
+        for(int i = 0; i < name.length(); i++){
+            answer += Math.min(name.charAt(i) - 'A', 'Z' - name.charAt(i) + 1);
+
+            index = i + 1;
+            while(index < length && name.charAt(index) == 'A'){
+                index++;
+            }
+            move = Math.min(move, i * 2 + length - index);
+            move = Math.min(move, (length - index) * 2 + i);
+        }
+        return answer + move;
     }
 
     private static int trial(String name) {
