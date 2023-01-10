@@ -35,3 +35,12 @@ Arrays.sort(num, new Comparator<String>(){
 
 // System.out.println(solution(new int[]{3, 30, 34, 5, 9}));     // "9534330"
 ```
+
+### 다차원 배열 정렬
+```java
+int[][] arr = new int[][]{{5,40},{3,50},{1,30},{4,20},{2,10}};
+Arrays.sort(arr, Comparator.comparingInt((int[] o) -> o[0]));            // 첫번째 숫자 기준 오름차순 
+Arrays.sort(arr, Comparator.comparingInt((int[] o) -> o[0]).reversed()); // 첫번째 숫자 기준 내림차순 
+Arrays.sort(arr, Comparator.comparingInt((int[] o) -> o[1]));            // 두번째 숫자 기준 오름차순
+Arrays.sort(arr, Comparator.comparingInt((int[] o) -> o[1]).reversed()); 
+```
