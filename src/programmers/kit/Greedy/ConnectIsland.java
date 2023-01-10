@@ -71,7 +71,7 @@ public class ConnectIsland {
     // 정확성: 62.5
     // 테스트케이스 못 찾음
     private static int trial3(int n, int[][] costs) {
-        int answer=0, index0=-1, index1=-1;
+        int answer=0;
         boolean b1, b2;
         String saved = "";
         List<String> passed = new ArrayList<>();
@@ -86,8 +86,7 @@ public class ConnectIsland {
                 saved += String.valueOf(i[0])+i[1];
                 answer+=i[2];
             }else{
-                index0 = -1;
-                index1 = -1;
+                int index0=-1, index1=-1;
                 for(int k=0; k<passed.size(); k++){
                     if(index0==-1 && passed.get(k).indexOf(String.valueOf(i[0]))!=-1) index0 = k;
                     if(index1==-1 && passed.get(k).indexOf(String.valueOf(i[1]))!=-1) index1 = k;
