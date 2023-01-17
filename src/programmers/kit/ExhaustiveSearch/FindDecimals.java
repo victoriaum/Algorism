@@ -37,10 +37,10 @@ public class FindDecimals {
             list.add(String.valueOf(c));
         }
 
-        for(int i=2; i<10; i++){
+        /*for(int i=2; i<10; i++){
             if(n/i==0) break;
             if(i==9) answer++;
-        }
+        }*/
 
         return answer;
     }
