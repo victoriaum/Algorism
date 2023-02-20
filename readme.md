@@ -1,1 +1,1 @@
-# Algorithm Study 2022 ~ Now
+# Algorithm Study
