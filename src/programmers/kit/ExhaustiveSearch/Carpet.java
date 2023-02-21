@@ -11,10 +11,27 @@ public class Carpet {
         System.out.println(solution(24,24));   // [8,6]
     }
 
+    private static int[] solution(int brown, int yellow) {
+        int[] answer = new int[2];
 
+        int w = (brown + yellow) / 3;
+        int h = 3;
+
+        while(w >= h) {
+            if(w*h == brown + yellow && 2*(w + h) == (brown + 4)) {
+                answer[0] = w;
+                answer[1] = h;
+                break;
+            }
+            h++;
+            w = (brown + yellow) / h;
+        }
+
+        return answer;
+    }
 
     // 합계: 30.8 / 100.0
-    private static int[] solution(int brown, int yellow) {
+    private static int[] trial(int brown, int yellow) {
         int[] answer = new int[2];
 
         // (x+y)*2=brown-4;
