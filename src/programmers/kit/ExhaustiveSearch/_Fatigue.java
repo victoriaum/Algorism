@@ -15,7 +15,30 @@ public class _Fatigue {
         System.out.println(solution(80,dungeons));    // 3
     }
 
-    private static int solution(int k, int[][] dungeons) {
+    // 참고 - https://velog.io/@doxxx93/practice-kit-brute-force-2
+    static boolean[] visited;
+    static int count = 0;
+
+    public static int solution(int k, int[][] dungeons) {
+        visited = new boolean[dungeons.length];
+        dfs(0, k, dungeons);
+        return count;
+    }
+
+    private static void dfs(int depth, int fatigue, int[][] dungeons){
+        for (int i = 0; i < dungeons.length; i++){
+            if (visited[i] || dungeons[i][0] > fatigue) {
+                continue;
+            }
+            visited[i] = true;
+            dfs(depth + 1, fatigue - dungeons[i][1], dungeons);
+            visited[i] = false;
+        }
+        count = Math.max(count, depth);
+    }
+
+    // 부정확한 코드
+    private static int trial(int k, int[][] dungeons) {
         int answer = 0;
         Arrays.sort(dungeons, Comparator.comparingInt((int[] o) -> o[0]).reversed());
         for(int[] arr: dungeons){
